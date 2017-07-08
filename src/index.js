@@ -1,7 +1,10 @@
 import express from 'express'
+import sunrise from './sunrise-router'
 
 const port = process.env.PORT || 8080
-const app = express()
+const app  = express()
+
+app.use('/sunrise', sunrise)
 
 app.get('/', (req, res) => res.end('Hello, World!'))
 
