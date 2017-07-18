@@ -1,4 +1,4 @@
-# The Sunset API
+# The Sunset API [![Build Status](https://travis-ci.org/joelwallis/thinkful-sunset-backend.svg?branch=master)](https://travis-ci.org/joelwallis/thinkful-sunset-backend)
 
 Offers forecasting data about sunrises and sunsets using external services
 ([SunsexWx's Sunburst API](https://sunburst.sunsetwx.com/v1/docs/)).
