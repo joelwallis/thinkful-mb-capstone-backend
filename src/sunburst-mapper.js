@@ -1,28 +1,43 @@
+import request from 'request-promise-native'
+
+const API_BASE_URL = 'https://sunburst.sunsetwx.com/v1'
+
 class SunburstMapper {
-  constructor (api_key) {
-    this.api_key = api_key;
+  constructor (params) {
+    if (typeof params !== 'object') {
+      throw new Error('You must pass parameters as key/value pairs object.')
+    }
+
+    if (!params.email || !params.password) {
+      throw new Error('`email` and `password` parameters are required.')
+    }
+
+    this.email = params.email;
+    this.password = params.password;
   }
 
-  getSunriseForecast() {
-    return Promise.resolve({
-      quality: Math.floor(Math.random() * 101),
-      scheduledFor: getRandomSchedule(true)
+  getToken () {
+    return request.post({
+      uri: API_BASE_URL + '/login',
+      formData: {
+        email: this.email,
+        password: this.password
+      },
+      json: true
     })
+      .then(body => {
+        this.token = body.token
+        return this.token
+      })
   }
 
-  getSunsetForecast() {
-    return Promise.resolve({
-      quality: Math.floor(Math.random() * 101),
-      scheduledFor: getRandomSchedule()
-    })
+  getSunriseForecast () {
+    return this.getSunsetForecast()
   }
-}
 
-function getRandomSchedule (isSunrise) {
-  const schedule = new Date()
-  schedule.setHours(isSunrise ? 5 : 17)
-  schedule.setMinutes(Math.floor(Math.random() * 31) + 15) // random 15-45 number
-  return schedule
+  getSunsetForecast () {
+    return Promise.reject(new Error())
+  }
 }
 
 module.exports = SunburstMapper
