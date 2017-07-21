@@ -80,6 +80,5 @@ export default class SunburstMapper {
         quality_percent: geoJSON.features[0].properties.quality_percent,
         temperature: geoJSON.features[0].properties.temperature
       }))
-      .catch(console.error)
   }
 }
