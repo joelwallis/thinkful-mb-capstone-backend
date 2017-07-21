@@ -7,11 +7,11 @@ export default class SunburstMapper {
     if (typeof params !== 'object') {
       throw new Error([
         'SunburstMapper requires an object with parameters.',
-        "\nE.g: `new SunburstMapper({",
-        "\n  email: 'john@doe.com',",
-        "\n  password: 'a1b2c3'",
-        "\n})`",
-      ].join(''))
+        "E.g: `new SunburstMapper({",
+        "  email: 'john@doe.com',",
+        "  password: 'a1b2c3'",
+        "})`",
+      ].join("\n"))
     }
 
     if (!params.email || !params.password) {
@@ -45,11 +45,11 @@ export default class SunburstMapper {
     if (typeof params !== 'object')
       throw new Error([
         'SunburstMapper#predict requires an object with parameters.',
-        "\nE.g: `mySunburstMapperInstance.predict({",
-        "\n  type: 'sunrise',",
-        "\n  coords: '12.34567890,9.8765432',",
-        "\n})`",
-      ].join(''))
+        "E.g: `mySunburstMapperInstance.predict({",
+        "  type: 'sunrise',",
+        "  coords: '12.34567890,9.8765432',",
+        "})`",
+      ].join("\n"))
 
     if (!params.type || !params.coords)
       throw new Error('Parameters `type` and `coords` are required.')
