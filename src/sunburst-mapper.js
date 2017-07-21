@@ -36,8 +36,6 @@ export default class SunburstMapper {
       .catch(error => {
         throw new Error([
           `Something went wrong while requesting the API with these credentials:`,
-          `Email: ${this.email}`,
-          `Password: ${this.password}`,
           `Error: ${error}`
         ].join("\n"))
       })
