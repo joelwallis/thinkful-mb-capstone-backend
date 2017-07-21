@@ -2,7 +2,7 @@ import request from 'request-promise-native'
 
 const API_BASE_URL = 'https://sunburst.sunsetwx.com/v1'
 
-class SunburstMapper {
+export default class SunburstMapper {
   constructor (params) {
     if (typeof params !== 'object') {
       throw new Error([
@@ -85,5 +85,3 @@ class SunburstMapper {
       .catch(console.error)
   }
 }
-
-module.exports = SunburstMapper
