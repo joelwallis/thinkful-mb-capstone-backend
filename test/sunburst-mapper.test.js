@@ -7,7 +7,7 @@ import sinon from 'sinon'
 const expect = chai.expect
 
 import dotenv from 'dotenv'
-// dotenv.config({path: path.join(__dirname, '../.env')})
+dotenv.config({path: path.join(__dirname, '../.env')})
 
 // Immutable default parameters
 const DEFAULT_PARAMS = {}
