@@ -1,6 +1,8 @@
 import request from 'request-promise-native'
+import * as DEBUG from 'debug'
 
 const API_BASE_URL = 'https://sunburst.sunsetwx.com/v1'
+const debug = DEBUG.debug('sunburst-mapper')
 
 export default class SunburstMapper {
   constructor (params) {
@@ -18,11 +20,18 @@ export default class SunburstMapper {
       throw new Error('Parameters `email` and `password` are required.')
     }
 
-    this.email = params.email;
-    this.password = params.password;
+    debug('New SunburstMapper instance. Parameters:', params)
+
+    this.email = params.email
+    this.password = params.password
   }
 
   getToken () {
+    debug('About to request an API token for the following credentials:', {
+      email: this.email,
+      password: this.password
+    })
+
     return request.post({
       uri: API_BASE_URL + '/login',
       form: {
@@ -32,7 +41,12 @@ export default class SunburstMapper {
       json: true,
       simple: true
     })
-      .then(body => (this.token = body.token) && this.token)
+      .then(body => {
+        debug('API token received:', body.token)
+
+        this.token = body.token
+        return this.token
+      })
       .catch(error => {
         throw new Error([
           `Something went wrong while requesting the API with these credentials:`,
@@ -56,6 +70,8 @@ export default class SunburstMapper {
 
     if (!['sunrise', 'sunset'].includes(params.type))
       throw new Error("Parameters `type` must be either 'sunrise' or 'sunset'.")
+
+    debug('About to request prediction with the following params:', params)
 
     params.limit  = params.limit  || 1
     params.radius = params.radius || 0
