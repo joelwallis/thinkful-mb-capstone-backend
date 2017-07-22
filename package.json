@@ -9,8 +9,10 @@
     "test:watch": "mocha -bw --compilers js:babel-register"
   },
   "dependencies": {
+    "@google/maps": "^0.4.2",
     "babel-cli": "^6.24.1",
     "babel-preset-es2015": "^6.24.1",
+    "debug": "^2.6.8",
     "dotenv": "^4.0.0",
     "express": "^4.15.3",
     "request": "^2.81.0",

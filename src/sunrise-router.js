@@ -1,24 +1,45 @@
 import express from 'express'
+import GoogleMaps from '@google/maps'
 import SunburstMapper from './sunburst-mapper'
+import path from 'path'
+
+import dotenv from 'dotenv'
+dotenv.config({path: path.join(__dirname, '../.env')})
 
 const app = express.Router()
-
-// I'm keeping this one to just have a coordinate to play with. This way I can
-// work on things that need a coordinate without having my system integrated
-// w/ Google Maps API
-const geolocation = ['37.9252316','-90.7686706']
-
-app.get('/', (req, res) => {
-  // - [ ] Convert ZIP and city/state into geo coordinates using Google Maps API
-  // - [ ] Get sunrise forecasting data somehow from Sunburst API
-  //   - [x] Fake it till you have it
-  // - [ ] Recover from errors - if any, and give a proper reason
-
-  const sunburst = new SunburstMapper()
-
-  sunburst.getSunriseForecast()
-    .then(payload => res.status(200).json(payload))
-    // todo: catch errors
+const maps = GoogleMaps.createClient({
+  key: process.env.GOOGLE_MAPS_API_KEY,
+  Promise
+})
+const sunburst = new SunburstMapper({
+  email: process.env.SUNBURST_ACCOUNT_EMAIL,
+  password: process.env.SUNBURST_ACCOUNT_PASSWORD
 })
 
-module.exports = app
+app.get('/', (req, res) => {
+  maps.geocode({address: req.query.address})
+    .asPromise()
+    .then(payload => `${payload.json.results[0].geometry.location.lng},${payload.json.results[0].geometry.location.lat}`)
+    .catch(err => res.status(400).json({
+      error: true,
+      services: 'google-maps',
+      message: err.toString()
+    }).end())
+    .then(coords => {
+      return sunburst.predict({
+        type: req.query.type,
+        coords: coords
+      })
+    })
+    .then(prediction => res.status(200).json({
+      type: typeof prediction,
+      prediction
+    }).end())
+    .catch(err => res.status(400).json({
+      error: true,
+      service: 'sunburst',
+      message: err.toString()
+    }))
+})
+
+export default app
