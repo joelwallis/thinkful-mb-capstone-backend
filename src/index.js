@@ -7,7 +7,7 @@ dotenv.config()
 const port = process.env.PORT || 8080
 const app  = express()
 
-app.get('/', (req, res) => res.end('Hello, World!'))
+app.get('/', (req, res) => res.end('Welcome to the Sunset API! 😎 🌇'))
 
 app.use('/predict', prediction)
 
