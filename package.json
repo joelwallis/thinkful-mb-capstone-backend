@@ -4,7 +4,7 @@
   "main": "src/index.js",
   "author": "Joel Wallis Jucá <joelwallis@gmail.com>",
   "scripts": {
-    "start": "node ./src/index.js",
+    "start": "babel-node ./src/index.js",
     "watch": "nodemon ./src/index.js",
     "test": "mocha -b --compilers js:babel-register",
     "test:watch": "mocha -bw --compilers js:babel-register"
