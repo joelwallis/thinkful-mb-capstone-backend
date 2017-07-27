@@ -17,14 +17,18 @@ const sunburst = new SunburstMapper({
 })
 
 app.get('/', (req, res) => {
-  maps.geocode({address: req.query.address})
-    .asPromise()
-    .then(payload => `${payload.json.results[0].geometry.location.lng},${payload.json.results[0].geometry.location.lat}`)
-    .catch(err => res.status(400).json({
-      error: true,
-      services: 'google-maps',
-      message: err.toString()
-    }).end())
+  (
+    req.query.coords && req.query.coords.match(/-?\d+(.\d*),-?\d+(.\d*)/) !== null
+      ? Promise.resolve(req.query.coords)
+      : maps.geocode({address: req.query.address})
+        .asPromise()
+        .then(payload => `${payload.json.results[0].geometry.location.lng},${payload.json.results[0].geometry.location.lat}`)
+        .catch(err => res.status(400).json({
+          error: true,
+          services: 'google-maps',
+          message: err.toString()
+        }).end())
+  )
     .then(coords => {
       return sunburst.predict({
         type: req.query.type,
