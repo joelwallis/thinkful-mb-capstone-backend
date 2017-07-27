@@ -78,6 +78,7 @@ export default class SunburstMapper {
         type: geoJSON.features[0].properties.type,
         quality: geoJSON.features[0].properties.quality,
         quality_percent: geoJSON.features[0].properties.quality_percent,
+        recommended_time: geoJSON.features[0].properties.valid_at,
         temperature: geoJSON.features[0].properties.temperature
       }))
   }
