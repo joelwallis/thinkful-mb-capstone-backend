@@ -1,10 +1,4 @@
 {
-  "verbose": true,
-  "execMap": {
-    "js": "babel-node"
-  },
-  "ignore": [
-    ".git",
-    "node_modules"
-  ]
+  "execMap": { "js": "babel-node" },
+  "ignore": [ ".git", "node_modules" ]
 }
